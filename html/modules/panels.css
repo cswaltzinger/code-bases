@@ -1,0 +1,117 @@
+:root {
+  --resize: 200px;
+  
+}
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    overflow: hidden; /* Prevents scrollbars from appearing during transitions */
+}
+
+/* The main grid container */
+.layout {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    gap: 8px;
+    text-align: center;
+    
+    /* Initial grid template: 10% height for header/footer, 10% width for sides */
+    grid-template-areas:
+        "header header header"
+        "leftSide body rightSide"
+        "footer footer footer";
+    
+    grid-template-columns: 10% 1fr 10%;
+    grid-template-rows: 10% 1fr 10%;
+    
+    /* Apply a transition to the grid itself for a smooth column/row size change */
+    transition: grid-template-columns 0.4s ease-in-out, grid-template-rows 0.4s ease-in-out;
+}
+
+/* Basic styling for all grid items */
+.grid-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: white;
+    padding: 10px;
+    box-sizing: border-box;
+    white-space: nowrap; /* Prevents text from wrapping */
+    overflow: hidden; /* Hides content that exceeds the default size */
+}
+
+/* Individual grid item styling */
+.header { 
+    grid-area: header; 
+    background-color: #3498db; /* Blue */
+    transition: all 0.4s ease-in-out;
+}
+
+.leftSide { 
+    grid-area: leftSide; 
+    background-color: #2ecc71; /* Green */
+    transition: all 0.4s ease-in-out;
+}
+
+.body { 
+    grid-area: body;
+    background-color: #ecf0f1; /* Light gray */
+    color: #333;
+    font-size: 1rem;
+}
+
+.rightSide { 
+    grid-area: rightSide; 
+    background-color: #e74c3c; /* Red */
+    transition: all 0.4s ease-in-out;
+}
+
+.footer { 
+    grid-area: footer; 
+    background-color: #f1c40f; /* Yellow */
+    transition: all 0.4s ease-in-out;
+}
+
+/* Hover effects for the top, bottom, left, and right sections */
+.header:hover {
+    /* height: min(max-content,var(--resize));
+     This will make the row's height expand */
+    height: var(--resize);
+     font-size: 1.5rem; /* Example: increase font size on hover */
+}
+
+.footer:hover {
+    /* height: min(max-content,var(--resize));
+     This will make the row's height expand */
+    height: var(--resize);
+     font-size: 1.5rem; /* Example: increase font size on hover */
+}
+
+.leftSide:hover, .rightSide:hover {
+     
+    /* width: min(max-content,var(--resize));
+     This will make the column's width expand */
+    width: var(--resize);
+     font-size: 1.5rem; /* Example: increase font size on hover */
+}
+
+/* Dynamic grid-template-rows based on header/footer hover */
+/* .layout:has(.header:hover) {
+    grid-template-rows: min-content 1fr 10%;
+}
+
+.layout:has(.footer:hover) {
+    grid-template-rows: 10% 1fr min-content;
+}
+
+.layout:has(.leftSide:hover) {
+    grid-template-columns: min-content 1fr 10%;
+}
+
+.layout:has(.rightSide:hover) {
+    grid-template-columns: 10% 1fr min-content;
+} */
