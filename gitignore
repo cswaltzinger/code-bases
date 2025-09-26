@@ -1,0 +1,5 @@
+.gitignore 
+**.smb**
+**test**
+*.dSYM
+.DS_Store
