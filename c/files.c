@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <sys/sendfile.h>
 
 int main() {
     // Open a file for reading. Replace "source.txt" with your file's name.
@@ -23,23 +24,32 @@ int main() {
         return 1;
     }
 
-    char buffer[1024];
+
     ssize_t bytes_read;
+    if(1){}
+        char buffer[BUFFER_SIZE];
 
-    // Loop to read from the source file in chunks and write to the destination.
-    // read() returns the number of bytes read, or 0 at end of file, or -1 on error.
-    while ((bytes_read = read(source_fd, buffer, sizeof(buffer))) > 0) {
-        // Write the same number of bytes that were just read.
-        if (write(dest_fd, buffer, bytes_read) != bytes_read) {
-            perror("Failed to write to destination file");
-            close(source_fd);
-            close(dest_fd);
-            return 1;
+        // Loop to read from the source file in chunks and write to the destination.
+        // read() returns the number of bytes read, or 0 at end of file, or -1 on error.
+        while ((bytes_read = read(source_fd, buffer, sizeof(buffer))) > 0) {
+            // Write the same number of bytes that were just read.
+            if (write(dest_fd, buffer, bytes_read) != bytes_read) {
+                perror("Failed to write to destination file");
+                close(source_fd);
+                close(dest_fd);
+                return 1;
+            }
         }
-    }
 
-    if (bytes_read < 0) {
-        perror("Error while reading source file");
+        if (bytes_read < 0) {
+            perror("Error while reading source file");
+        }
+    }else{
+        //alternativly 
+        do{
+            bytes_read = sendfile(dest_fd, source_fd, 0,BUFFER_SIZE);
+        }while(bytes_read == BUFFER_SIZE);
+
     }
 
     // Close both file descriptors.
